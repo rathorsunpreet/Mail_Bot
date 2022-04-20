@@ -1,0 +1,6 @@
+# Logs and Text Files #
+#######################
+*.txt
+*.log
+*.sql
+*.sqlite
