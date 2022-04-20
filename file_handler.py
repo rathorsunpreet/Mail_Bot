@@ -6,14 +6,12 @@
 
 """
 File Formats:
-    TODO: Change r_list file format to csv
     r_list.txt:
-    Identifier-Name-Email Adress-Position
+    Identifier,Name,Email Adress,Position,Date
 
     body_file.txt:
     Normal Email Body with $variables, to be substituted from r_list.txt
 
-    TODO: Read into dictionary from within this file
     option_file.txt:
     Option: Value
 
@@ -21,6 +19,8 @@ File Formats:
     In all three files anything preceded by # is to be considered
     as a comment and not evaluated
 """
+
+import csv
 
 # File Handlers
 r_file = None   # Recipient File 
@@ -87,7 +87,15 @@ def read_file(ftype):
     if ftype == 0:
         # Check if files existed, extract info into list
         if r_check == False:
-            lines = r_file.readlines()
+            reader = csv.reader(r_file, delimiter=',', skipinitialspace=True)      # allows for format data, data, data
+            line_count = 0
+            for row in reader:
+                if line_count == 0:
+                    line_count += 1
+                    continue
+                else:
+                    lines.append(row)
+                    line_count += 1
             return lines
     # Body File Operations
     elif ftype == 1:
@@ -109,13 +117,6 @@ def read_file(ftype):
 def write_file(ftype, content):
     # Recipient File Operations
     if ftype == 0:
-        #for outer in content:
-        #    for inner in outer:
-        #        if outer.index(inner) == (len(outer) - 1):
-        #            r_file.write(inner)
-        #            break
-        #        r_file.write(inner + "-")
-        #    r_file.write("\n")
         r_file.write(content)
         print("Recipient File written")
     # Body file Operations
@@ -143,6 +144,6 @@ def close_file(ftype):
 
 
 # Test Statements
-# open_file(2)
-# print(read_file(2))
-# close_file(2)
+open_file(0)
+print(read_file(0))
+close_file(0)
