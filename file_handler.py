@@ -8,6 +8,8 @@
 File Formats:
     r_list.txt:
     Identifier,Name,Email Adress,Position,Date
+    The header is marked with a #.
+    So header becomes: #,Id,Name,Email,Address,....
 
     body_file.txt:
     Normal Email Body with $variables, to be substituted from r_list.txt
@@ -88,14 +90,11 @@ def read_file(ftype):
         # Check if files existed, extract info into list
         if r_check == False:
             reader = csv.reader(r_file, delimiter=',', skipinitialspace=True)      # allows for format data, data, data
-            line_count = 0
             for row in reader:
-                if line_count == 0:
-                    line_count += 1
+                if '#' in row:
                     continue
                 else:
                     lines.append(row)
-                    line_count += 1
             return lines
     # Body File Operations
     elif ftype == 1:
